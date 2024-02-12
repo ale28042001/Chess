@@ -23,7 +23,11 @@ public class Piece {
         this.color = color;
     }
 
-    
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return this.getColor()+this.getName();
+    }
 }
 
 

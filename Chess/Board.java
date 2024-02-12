@@ -1,5 +1,9 @@
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Board {
-    private Piece[][] positions;
+    public Piece[][] positions;
 
     public Board() {
         this.positions = new Piece[8][8];
@@ -46,6 +50,63 @@ public class Board {
             }
             System.out.println();
         }
+    }
+
+// Method to calculate possible moves for a piece
+    public List<Position> calculatePossibleMoves(int row, int col) { //////////use position
+        Piece piece = positions[row][col];
+        
+        if (piece == null) {
+            System.out.println("No piece found at the source position.");
+            return new ArrayList<>();
+        }
+
+        List<Position> possibleMoves = new ArrayList<>();
+
+        // For a pawn
+        if (piece.name.equals("Pawn")) {
+            
+            int direction = piece.color.equals("White") ? 1 : -1;
+
+            // Forward move
+            int newRow = row + direction;
+
+            if (isValidPosition(newRow, col) && positions[newRow][col] == null) {
+                possibleMoves.add(new Position(newRow, col));
+            }
+
+            // Diagonal capture moves
+            int[] captureCols = {col - 1, col + 1};
+            for (int captureCol : captureCols) {
+                if (isValidPosition(newRow, captureCol) && positions[newRow][captureCol] != null &&
+                        !positions[newRow][captureCol].color.equals(piece.color)) {
+                    possibleMoves.add(new Position(newRow, captureCol));
+                }
+            }
+        }
+        // For a knight
+        if (piece.name.equals("Knight")) {
+            // Define all possible knight move offsets
+            int[][] knightMoves = {{-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {2, -1}, {2, 1}};
+
+            for (int[] move : knightMoves) {
+                int newRow = row + move[0];
+                int newCol = col + move[1];
+
+                if (isValidPosition(newRow, newCol) &&
+                        (positions[newRow][newCol] == null || !positions[newRow][newCol].color.equals(piece.color))) {
+                    possibleMoves.add(new Position(newRow, newCol));
+                }
+            }
+        }
+
+
+        return possibleMoves;
+    }
+
+    // Method to check if a position is valid (within bounds of the board)
+    private boolean isValidPosition(int row, int col) {
+        return row >= 0 && row < 8 && col >= 0 && col < 8;
     }
 
     public void movePiece(int startRow, int startCol, int destRow, int destCol) {
