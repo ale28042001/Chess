@@ -99,6 +99,128 @@ public class Board {
                 }
             }
         }
+        // For a rook
+        if (piece.name.equals("Rook")) {
+            // Check moves in the same row
+            for (int newCol = col - 1; newCol >= 0; newCol--) {
+                if (positions[row][newCol] == null) {
+                    possibleMoves.add(new Position(row, newCol));
+                } else {
+                    if (!positions[row][newCol].color.equals(piece.color)) {
+                        possibleMoves.add(new Position(row, newCol));
+                    }
+                    break;  // Stop checking further in this direction
+                }
+            }
+            for (int newCol = col + 1; newCol < 8; newCol++) {
+                if (positions[row][newCol] == null) {
+                    possibleMoves.add(new Position(row, newCol));
+                } else {
+                    if (!positions[row][newCol].color.equals(piece.color)) {
+                        possibleMoves.add(new Position(row, newCol));
+                    }
+                    break;  // Stop checking further in this direction
+                }
+            }
+
+            // Check moves in the same column
+            for (int newRow = row - 1; newRow >= 0; newRow--) {
+                if (positions[newRow][col] == null) {
+                    possibleMoves.add(new Position(newRow, col));
+                } else {
+                    if (!positions[newRow][col].color.equals(piece.color)) {
+                        possibleMoves.add(new Position(newRow, col));
+                    }
+                    break;  // Stop checking further in this direction
+                }
+            }
+            for (int newRow = row + 1; newRow < 8; newRow++) {
+                if (positions[newRow][col] == null) {
+                    possibleMoves.add(new Position(newRow, col));
+                } else {
+                    if (!positions[newRow][col].color.equals(piece.color)) {
+                        possibleMoves.add(new Position(newRow, col));
+                    }
+                    break;  // Stop checking further in this direction
+                }
+            }
+        }
+        // For a bishop
+        if (piece.name.equals("Bishop")) {
+            // Check moves in diagonal directions
+            // Upper left diagonal
+            for (int newRow = row - 1, newCol = col - 1; newRow >= 0 && newCol >= 0; newRow--, newCol--) {
+                if (positions[newRow][newCol] == null) {
+                    possibleMoves.add(new Position(newRow, newCol));
+                } else {
+                    if (!positions[newRow][newCol].color.equals(piece.color)) {
+                        possibleMoves.add(new Position(newRow, newCol));
+                    }
+                    break;  // Stop checking further in this direction
+                }
+            }
+
+            // Upper right diagonal
+            for (int newRow = row - 1, newCol = col + 1; newRow >= 0 && newCol < 8; newRow--, newCol++) {
+                if (positions[newRow][newCol] == null) {
+                    possibleMoves.add(new Position(newRow, newCol));
+                } else {
+                    if (!positions[newRow][newCol].color.equals(piece.color)) {
+                        possibleMoves.add(new Position(newRow, newCol));
+                    }
+                    break;  // Stop checking further in this direction
+                }
+            }
+
+            // Lower left diagonal
+            for (int newRow = row + 1, newCol = col - 1; newRow < 8 && newCol >= 0; newRow++, newCol--) {
+                if (positions[newRow][newCol] == null) {
+                    possibleMoves.add(new Position(newRow, newCol));
+                } else {
+                    if (!positions[newRow][newCol].color.equals(piece.color)) {
+                        possibleMoves.add(new Position(newRow, newCol));
+                    }
+                    break;  // Stop checking further in this direction
+                }
+            }
+
+            // Lower right diagonal
+            for (int newRow = row + 1, newCol = col + 1; newRow < 8 && newCol < 8; newRow++, newCol++) {
+                if (positions[newRow][newCol] == null) {
+                    possibleMoves.add(new Position(newRow, newCol));
+                } else {
+                    if (!positions[newRow][newCol].color.equals(piece.color)) {
+                        possibleMoves.add(new Position(newRow, newCol));
+                    }
+                    break;  // Stop checking further in this direction
+                }
+            }
+        }
+        // For a queen
+        if (piece.name.equals("Queen")) {
+            // Check horizontal and vertical moves (rook-like moves)
+            possibleMoves.addAll(calculateRookMoves(row, col));
+
+            // Check diagonal moves (bishop-like moves)
+            possibleMoves.addAll(calculateBishopMoves(row, col));
+        }
+        // For a king
+        if (piece.name.equals("King")) {
+            // Define all possible king move offsets
+            int[][] kingMoves = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+
+            for (int[] move : kingMoves) {
+                int newRow = row + move[0];
+                int newCol = col + move[1];
+
+                if (isValidPosition(newRow, newCol) &&
+                        (positions[newRow][newCol] == null || !positions[newRow][newCol].color.equals(piece.color))) {
+                    possibleMoves.add(new Position(newRow, newCol));
+                }
+            }
+        }
+
+
 
 
         return possibleMoves;
