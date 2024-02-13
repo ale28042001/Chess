@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -256,6 +258,6 @@ public class Board {
         // If all checks pass, move the piece
         positions[destRow][destCol] = piece;
         positions[startRow][startCol] = null;
-        System.out.println("Piece moved successfully.");
+        System.out.println("model.Piece moved successfully.");
     }
 }

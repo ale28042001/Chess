@@ -1,3 +1,5 @@
+package model;
+
 public class Piece {
     public String name;
     public String color;
