@@ -60,7 +60,7 @@ public class Board {
         // For a knight
         if (piece.name.equals("Knight")) {
             // Define all possible knight move offsets
-            int[][] knightMoves = {{-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {2, -1}, {2, 1}};
+            int[][] knightMoves = Constants.KNIGHT_MOVES;
 
             for (int[] move : knightMoves) {
                 int newRow = row + move[0];
@@ -172,15 +172,15 @@ public class Board {
         // For a queen
         if (piece.name.equals("Queen")) {
             // Check horizontal and vertical moves (rook-like moves)
-            possibleMoves.addAll(calculateRookMoves(row, col));
+            //possibleMoves.addAll(calculateRookMoves(row, col));
 
             // Check diagonal moves (bishop-like moves)
-            possibleMoves.addAll(calculateBishopMoves(row, col));
+            //possibleMoves.addAll(calculateBishopMoves(row, col));
         }
         // For a king
         if (piece.name.equals("King")) {
             // Define all possible king move offsets
-            int[][] kingMoves = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+            int[][] kingMoves = Constants.KING_MOVES;
 
             for (int[] move : kingMoves) {
                 int newRow = row + move[0];
