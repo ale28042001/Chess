@@ -11,35 +11,6 @@ public class Board {
         this.positions = new Piece[8][8];
     }
 
-    // Method to initialize the game with original pieces
-    public void createGame() {
-        // White pieces
-        positions[0][0] = new Piece("Rook", "White");
-        positions[0][1] = new Piece("Knight", "White");
-        positions[0][2] = new Piece("Bishop", "White");
-        positions[0][3] = new Piece("Queen", "White");
-        positions[0][4] = new Piece("King", "White");
-        positions[0][5] = new Piece("Bishop", "White");
-        positions[0][6] = new Piece("Knight", "White");
-        positions[0][7] = new Piece("Rook", "White");
-        for (int i = 0; i < 8; i++) {
-            positions[1][i] = new Piece("Pawn", "White");
-        }
-
-        // Black pieces
-        positions[7][0] = new Piece("Rook", "Black");
-        positions[7][1] = new Piece("Knight", "Black");
-        positions[7][2] = new Piece("Bishop", "Black");
-        positions[7][3] = new Piece("Queen", "Black");
-        positions[7][4] = new Piece("King", "Black");
-        positions[7][5] = new Piece("Bishop", "Black");
-        positions[7][6] = new Piece("Knight", "Black");
-        positions[7][7] = new Piece("Rook", "Black");
-        for (int i = 0; i < 8; i++) {
-            positions[6][i] = new Piece("Pawn", "Black");
-        }
-    }
-
     // Print the board
     public void printBoard() {
         for (int i = 0; i < 8; i++) {
