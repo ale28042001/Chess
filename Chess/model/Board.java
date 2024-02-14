@@ -27,7 +27,7 @@ public class Board {
     }
 
 // Method to calculate possible moves for a piece
-    public List<Position> calculatePossibleMoves(int row, int col) { //////////use position
+    public List<Position> calculatePossibleMoves(int row, int col) { ////////// TODO use position
         Piece piece = positions[row][col];
         
         if (piece == null) {
