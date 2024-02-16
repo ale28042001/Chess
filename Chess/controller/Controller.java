@@ -16,9 +16,6 @@ public class Controller implements ActionListener {
     private ChessView view;
     private Board model;
 
-    private Position startPosition;
-    private Position destPosition;
-
     public Controller(ChessView view, Board model) {
         this.view = view;
         this.model = model;
@@ -29,6 +26,7 @@ public class Controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Square square = (Square) e.getSource();
+        // TODO ALL OF THIS IN MODEL
         //TODO check if square is occupied (to set startPosition)
         //TODO if square is empty, do not set startPosition
         //TODO if square is occupied, set startPosition
