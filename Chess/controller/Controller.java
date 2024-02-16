@@ -3,6 +3,7 @@ package controller;
 import model.Board;
 import model.Piece;
 import view.ChessView;
+import view.Square;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +23,8 @@ public class Controller implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        Square square = (Square) e.getSource();
+        System.out.println(square.getPosition().toString());
     }
 
     public void setPieces(){

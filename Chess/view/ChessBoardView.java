@@ -5,10 +5,10 @@ import java.awt.*;
 
 public class ChessBoardView extends JPanel {
 
-    private JButton[][] squares;
+    private Square[][] squares;
     private GridLayout grid;
     public ChessBoardView() {
-        this.squares = setButtons();
+        this.squares = setSquares();
         super.setLayout(new GridLayout(8,8));
 
         // adds aquares (JButtons) to grid
@@ -19,21 +19,21 @@ public class ChessBoardView extends JPanel {
         }
     }
 
-    public JButton[][] setButtons(){
-        JButton[][] buttons = new JButton[8][8];
+    public Square[][] setSquares(){
+        Square[][] squares = new Square[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                buttons[i][j] = createButton(i,j);
+                squares[i][j] = createSquare(i,j);
             }
         }
 
-        return buttons;
+        return squares;
     }
 
     // Creates a new button and sets its color depending on the position of the button in the grid
-    public JButton createButton(int row, int col){
+    public Square createSquare(int row, int col){
         Color color;
-        JButton btn = new JButton();
+        Square square = new Square(row, col);
 
         if((row + col) % 2 == 0){
             color = ViewConstants.COLOR_BEIGE;
@@ -42,12 +42,17 @@ public class ChessBoardView extends JPanel {
         else{
             color = ViewConstants.COLOR_BROWN;
         }
-        btn.setBackground(color);
-        return btn;
+        square.setBackground(color);
+        return square;
     }
 
     public void setPiece(String iconKey, int row, int column){
         Icon icon = ViewConstants.ICONS.getIcon(iconKey);
         this.squares[row][column].setIcon(icon);
+    }
+
+    //Getters
+    public JButton[][] getSquares() {
+        return squares;
     }
 }

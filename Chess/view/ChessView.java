@@ -27,6 +27,13 @@ public class ChessView extends JFrame {
 
     public void setController(Controller controller){
         this.controller = controller;
+
+        // Sets an ActionListener to each square (JButton)
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                chessBoardView.getSquares()[i][j].addActionListener(this.controller);
+            }
+        }
     }
 
     //Getters
