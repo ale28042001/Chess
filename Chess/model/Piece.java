@@ -27,7 +27,7 @@ public class Piece {
 
     @Override
     public String toString() {
-        return ();
+        return (color + "_" + name);
     }
 }
 

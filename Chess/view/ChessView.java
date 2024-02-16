@@ -1,19 +1,22 @@
 package view;
 
+import controller.Controller;
+
 import javax.swing.*;
 
 public class ChessView extends JFrame {
 
-    private ChessBoard chessBoard;
+    private ChessBoardView chessBoardView;
+    private Controller controller;
 
     public ChessView(){
-        this.chessBoard = new ChessBoard();
+        this.chessBoardView = new ChessBoardView();
         this.initComponents();
         this.setChessFrame();
     }
 
     public void initComponents(){
-        this.add(chessBoard);
+        this.add(chessBoardView);
     }
 
     public void setChessFrame(){
@@ -22,7 +25,12 @@ public class ChessView extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public ChessBoard getChessBoard() {
-        return chessBoard;
+    public void setController(Controller controller){
+        this.controller = controller;
+    }
+
+    //Getters
+    public ChessBoardView getChessBoard() {
+        return chessBoardView;
     }
 }

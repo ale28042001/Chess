@@ -3,11 +3,11 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
-public class ChessBoard extends JPanel {
+public class ChessBoardView extends JPanel {
 
     private JButton[][] squares;
     private GridLayout grid;
-    public ChessBoard() {
+    public ChessBoardView() {
         this.squares = setButtons();
         super.setLayout(new GridLayout(8,8));
 
