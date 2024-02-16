@@ -11,9 +11,16 @@ public class Board {
     private Piece[][] positions;
     private ChessView chessBoard;
 
+    Position startPosition;
+    Position destPosition;
+    String playerInTurn;
+
 
     public Board(ChessView chessBoard) {
         this.positions = new Piece[8][8];
+        this.startPosition = new Position(-1,-1);
+        this.destPosition = new Position(-1,-1);
+        this.playerInTurn = "White";
     }
 
     // Print the board
@@ -246,4 +253,16 @@ public class Board {
     public void placePiece( Piece piece, int row, int col){
         this.positions[row][col] = piece;
     }
+
+    // Basic Functions
+
+    public void changePlayerInTurn(){
+        if(this.playerInTurn.equals("White")){
+            this.playerInTurn = "Black";
+        }
+        else{
+            this.playerInTurn = "White";
+        }
+    }
+
 }

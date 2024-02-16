@@ -25,7 +25,15 @@ public class Controller implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Square square = (Square) e.getSource();
+        Object source = e.getSource();
+
+        if(source instanceof Square){
+
+            Square square = (Square) source;
+            System.out.println(square.getPosition());
+
+        }
+
         // TODO ALL OF THIS IN MODEL
         //TODO check if square is occupied (to set startPosition)
         //TODO if square is empty, do not set startPosition
