@@ -71,6 +71,7 @@ public class Moves {
     public List<Position> calculateKnightMoves(Position position, Piece[][] positions) {
         int row = position.getRow();
         int col = position.getCol();
+        Piece piece = positions[row][col];
         List<Position> possibleMoves = new ArrayList<>();
         // Implement the logic for calculating possible moves for the Knight
         int[][] knightMoves = Constants.KNIGHT_MOVES;
