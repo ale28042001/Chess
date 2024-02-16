@@ -10,7 +10,6 @@ public class Board {
 
     private Piece[][] positions;
     private ChessView chessBoard;
-
     Position startPosition;
     Position destPosition;
     String playerInTurn;
@@ -38,7 +37,7 @@ public class Board {
         }
     }
 
-// Method to calculate possible moves for a piece
+    // Method to calculate possible moves for a piece
     public List<Position> calculatePossibleMoves(int row, int col) { ////////// TODO use position
         Piece piece = positions[row][col];
         
@@ -263,6 +262,15 @@ public class Board {
         else{
             this.playerInTurn = "White";
         }
+    }
+
+    public void setPosition(Position position){
+
+
+    }
+
+    public boolean isEmpty(Position position){
+        return false;
     }
 
 }

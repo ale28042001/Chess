@@ -1,5 +1,7 @@
 package view;
 
+import model.Position;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -52,6 +54,10 @@ public class ChessBoardView extends JPanel {
     public void setPiece(String iconKey, int row, int column){
         Icon icon = ViewConstants.ICONS.getIcon(iconKey);
         this.squares[row][column].setIcon(icon);
+    }
+
+    public void setSquareColor(Position position){
+        this.squares[position.getRow()][position.getCol()].setBackground(Color.GREEN);
     }
 
     //Getters

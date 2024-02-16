@@ -5,6 +5,7 @@ import model.Piece;
 import model.Position;
 import view.ChessView;
 import view.Square;
+import view.ViewConstants;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,19 +29,8 @@ public class Controller implements ActionListener {
         Object source = e.getSource();
 
         if(source instanceof Square){
-
             Square square = (Square) source;
-            System.out.println(square.getPosition());
-
         }
-
-        // TODO ALL OF THIS IN MODEL
-        //TODO check if square is occupied (to set startPosition)
-        //TODO if square is empty, do not set startPosition
-        //TODO if square is occupied, set startPosition
-        //TODO if there is startPosition set, set destPosition
-        //TODO after moving, reset startPosition and destPosition
-
     }
 
     public void setPieces(){
