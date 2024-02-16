@@ -43,9 +43,9 @@ public class Board {
         List<Position> possibleMoves = new ArrayList<>();
 
         // For a pawn
-        if (piece.name.equals("PAWN")) {
+        if (piece.name.equals("Pawn")) {
             
-            int direction = piece.color.equals("WHITE") ? 1 : -1;
+            int direction = piece.color.equals("White") ? 1 : -1;
 
             // Forward move
             int newRow = row + direction;
@@ -64,7 +64,7 @@ public class Board {
             }
         }
         // For a knight
-        if (piece.name.equals("KNIGHT")) {
+        if (piece.name.equals("Knight")) {
             // Define all possible knight move offsets
             int[][] knightMoves = Constants.KNIGHT_MOVES;
 
@@ -79,7 +79,7 @@ public class Board {
             }
         }
         // For a rook
-        if (piece.name.equals("ROOK")) {
+        if (piece.name.equals("Rook")) {
             // Check moves in the same row
             for (int newCol = col - 1; newCol >= 0; newCol--) {
                 if (positions[row][newCol] == null) {
@@ -125,7 +125,7 @@ public class Board {
             }
         }
         // For a bishop
-        if (piece.name.equals("BISHOP")) {
+        if (piece.name.equals("Bishop")) {
             // Check moves in diagonal directions
             // Upper left diagonal
             for (int newRow = row - 1, newCol = col - 1; newRow >= 0 && newCol >= 0; newRow--, newCol--) {
@@ -176,7 +176,7 @@ public class Board {
             }
         }
         // For a queen
-        if (piece.name.equals("QUEEN")) {
+        if (piece.name.equals("Queen")) {
             // Check horizontal and vertical moves (rook-like moves)
             //possibleMoves.addAll(calculateRookMoves(row, col));
 
@@ -184,7 +184,7 @@ public class Board {
             //possibleMoves.addAll(calculateBishopMoves(row, col));
         }
         // For a king
-        if (piece.name.equals("KING")) {
+        if (piece.name.equals("King")) {
             // Define all possible king move offsets
             int[][] kingMoves = Constants.KING_MOVES;
 

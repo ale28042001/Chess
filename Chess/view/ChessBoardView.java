@@ -46,7 +46,7 @@ public class ChessBoardView extends JPanel {
         return btn;
     }
 
-    public void setPiece(int row, int column){
-        this.squares[row][column].setIcon(ViewConstants.BLACK_BISHOP);
+    public void setPiece(Icon pieceIcon, int row, int column){
+        this.squares[row][column].setIcon(pieceIcon);
     }
 }

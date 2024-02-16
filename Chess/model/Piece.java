@@ -27,7 +27,8 @@ public class Piece {
 
     @Override
     public String toString() {
-        return (color + "_" + name);
+        // TODO Auto-generated method stub
+        return this.getColor()+this.getName();
     }
 }
 

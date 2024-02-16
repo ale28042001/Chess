@@ -9,30 +9,30 @@ public class Utils {
     public static Board createGame(ChessView chessBoard){
         Board board = new Board(chessBoard);
 
-        // WHITE pieces
-        board.placePiece(new Piece("ROOK", "WHITE"), 0,0);
-        board.placePiece(new Piece("KNIGHT", "WHITE"), 0, 1);
-        board.placePiece(new Piece("BISHOP", "WHITE"), 0, 2);
-        board.placePiece(new Piece("QUEEN", "WHITE"), 0, 3);
-        board.placePiece(new Piece("KING", "WHITE"), 0, 4);
-        board.placePiece(new Piece("BISHOP", "WHITE"), 0, 5);
-        board.placePiece(new Piece("KNIGHT", "WHITE"), 0, 6);
-        board.placePiece(new Piece("ROOK", "WHITE"), 0, 7);
+        // White pieces
+        board.placePiece(new Piece("Rook", "White"), 0,0);
+        board.placePiece(new Piece("Knight", "White"), 0, 1);
+        board.placePiece(new Piece("Bishop", "White"), 0, 2);
+        board.placePiece(new Piece("Queen", "White"), 0, 3);
+        board.placePiece(new Piece("King", "White"), 0, 4);
+        board.placePiece(new Piece("Bishop", "White"), 0, 5);
+        board.placePiece(new Piece("Knight", "White"), 0, 6);
+        board.placePiece(new Piece("Rook", "White"), 0, 7);
         for (int i = 0; i < 8; i++) {
-            board.placePiece(new Piece("PAWN", "WHITE"), 1, i);
+            board.placePiece(new Piece("Pawn", "White"), 1, i);
         }
 
-        // BLACK pieces
-        board.placePiece(new Piece("ROOK", "BLACK"), 7, 0);
-        board.placePiece(new Piece("KNIGHT", "BLACK"), 7, 1);
-        board.placePiece(new Piece("BISHOP", "BLACK"), 7, 2);
-        board.placePiece(new Piece("QUEEN", "BLACK"), 7, 3);
-        board.placePiece(new Piece("KING", "BLACK"), 7, 4);
-        board.placePiece(new Piece("BISHOP", "BLACK"), 7, 5);
-        board.placePiece(new Piece("KNIGHT", "BLACK"), 7, 6);
-        board.placePiece(new Piece("ROOK", "BLACK"), 7, 7);
+        // Black pieces
+        board.placePiece(new Piece("Rook", "Black"), 7, 0);
+        board.placePiece(new Piece("Knight", "Black"), 7, 1);
+        board.placePiece(new Piece("Bishop", "Black"), 7, 2);
+        board.placePiece(new Piece("Queen", "Black"), 7, 3);
+        board.placePiece(new Piece("King", "Black"), 7, 4);
+        board.placePiece(new Piece("Bishop", "Black"), 7, 5);
+        board.placePiece(new Piece("Knight", "Black"), 7, 6);
+        board.placePiece(new Piece("Rook", "Black"), 7, 7);
         for (int i = 0; i < 8; i++) {
-            board.placePiece(new Piece("PAWN", "BLACK"), 6, i);
+            board.placePiece(new Piece("Pawn", "Black"), 6, i);
         }
 
         return board;

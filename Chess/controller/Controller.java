@@ -1,10 +1,12 @@
 package controller;
 
 import model.Board;
+import model.Piece;
 import view.ChessView;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Optional;
 
 public class Controller implements ActionListener {
 
@@ -21,5 +23,16 @@ public class Controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+    }
+
+    public void setPieces(){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                Optional<Piece> optionalPiece = Optional.ofNullable(this.model.getPositions()[i][j]);
+                if(!optionalPiece.isEmpty()){
+                    System.out.println(optionalPiece.get().toString());
+                }
+            }
+        }
     }
 }
