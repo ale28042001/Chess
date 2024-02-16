@@ -30,7 +30,8 @@ public class Controller implements ActionListener {
             for (int j = 0; j < 8; j++) {
                 Optional<Piece> optionalPiece = Optional.ofNullable(this.model.getPositions()[i][j]);
                 if(!optionalPiece.isEmpty()){
-                    System.out.println(optionalPiece.get().toString());
+                    Piece piece = optionalPiece.get();
+                    this.view.getChessBoard().setPiece(piece.getIconKey(), i, j);
                 }
             }
         }
