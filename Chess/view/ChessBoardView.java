@@ -9,9 +9,11 @@ public class ChessBoardView extends JPanel {
     private GridLayout grid;
     public ChessBoardView() {
         this.squares = setSquares();
+
+        // Creates a grid where squares (JButtons) will be placed.
         super.setLayout(new GridLayout(8,8));
 
-        // adds aquares (JButtons) to grid
+        // Adds squares (JButtons) to grid
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 this.add(squares[i][j]);
@@ -19,6 +21,7 @@ public class ChessBoardView extends JPanel {
         }
     }
 
+    // Sets the squares (JButtons) to the grid.
     public Square[][] setSquares(){
         Square[][] squares = new Square[8][8];
         for (int i = 0; i < 8; i++) {
@@ -30,7 +33,7 @@ public class ChessBoardView extends JPanel {
         return squares;
     }
 
-    // Creates a new button and sets its color depending on the position of the button in the grid
+    // Creates a new sauqre and sets its color depending on the position of the button in the grid
     public Square createSquare(int row, int col){
         Color color;
         Square square = new Square(row, col);

@@ -2,9 +2,11 @@ package controller;
 
 import model.Board;
 import model.Piece;
+import model.Position;
 import view.ChessView;
 import view.Square;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Optional;
@@ -13,6 +15,9 @@ public class Controller implements ActionListener {
 
     private ChessView view;
     private Board model;
+
+    private Position startPosition;
+    private Position destPosition;
 
     public Controller(ChessView view, Board model) {
         this.view = view;
@@ -24,7 +29,12 @@ public class Controller implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Square square = (Square) e.getSource();
-        System.out.println(square.getPosition().toString());
+        //TODO check if square is occupied (to set startPosition)
+        //TODO if square is empty, do not set startPosition
+        //TODO if square is occupied, set startPosition
+        //TODO if there is startPosition set, set destPosition
+        //TODO after moving, reset startPosition and destPosition
+
     }
 
     public void setPieces(){
