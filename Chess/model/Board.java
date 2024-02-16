@@ -4,6 +4,7 @@ import view.ChessView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class Board {
@@ -216,7 +217,12 @@ public class Board {
         return row >= 0 && row < 8 && col >= 0 && col < 8;
     }
 
-    public void movePiece(int startRow, int startCol, int destRow, int destCol) {
+    public void movePiece() {
+        int startRow = this.startPosition.getRow();
+        int startCol = this.startPosition.getCol();
+        int destRow = this.destPosition.getRow();
+        int destCol = this.destPosition.getCol();
+
         Piece piece = positions[startRow][startCol];
         if (piece == null) {
             System.out.println("No piece found at the starting position.");
@@ -244,11 +250,6 @@ public class Board {
         System.out.println("model.Piece moved successfully.");
     }
 
-    // Getters and setters
-    public Piece[][] getPositions() {
-        return positions;
-    }
-
     public void placePiece( Piece piece, int row, int col){
         this.positions[row][col] = piece;
     }
@@ -266,11 +267,63 @@ public class Board {
 
     public void setPosition(Position position){
 
+        if(isStartPositionSet() && !isDestPositionSet()){
+            destPosition = position;
+            movePiece();
+            resetPositions();
+            changePlayerInTurn();
+        }
 
+        else if(!isStartPositionSet() && !isEmpty(position) && playerInTurn.equals(getPositionColor(position))){
+            startPosition = position;
+
+        }
+    }
+
+    public String getPositionColor(Position position){
+        int row = position.getRow();
+        int col = position.getCol();
+        return positions[row][col].color;
     }
 
     public boolean isEmpty(Position position){
-        return false;
+        int row = position.getRow();
+        int col = position.getCol();
+        Optional<Piece> optionalPiece = Optional.ofNullable(this.positions[row][col]);
+        return optionalPiece.isEmpty();
+
     }
 
+    public boolean isStartPositionSet(){
+        Position unsetPosition = new Position(-1,-1);
+        return !this.startPosition.equals(unsetPosition);
+    }
+
+    public boolean isDestPositionSet(){
+        Position unsetPosition = new Position(-1,-1);
+        return !this.destPosition.equals(unsetPosition);
+    }
+
+    public Position unsetPosition(){
+        return new Position(-1,-1);
+    }
+
+    public void resetPositions(){
+        Position position = new Position(-1,-1);
+        startPosition = position;
+        destPosition = position;
+    }
+
+    // Getters and setters
+    public Piece[][] getPositions() {
+        return positions;
+    }
+
+    public Position getStartPosition() {
+        return startPosition;
+    }
+
+    public Position getDestPosition() {
+        return destPosition;
+    }
 }

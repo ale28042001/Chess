@@ -51,9 +51,17 @@ public class ChessBoardView extends JPanel {
         return square;
     }
 
-    public void setPiece(String iconKey, int row, int column){
+    public void setPiece(String iconKey, Position position){
+        int row = position.getRow();
+        int col = position.getCol();
         Icon icon = ViewConstants.ICONS.getIcon(iconKey);
-        this.squares[row][column].setIcon(icon);
+        this.squares[row][col].setIcon(icon);
+    }
+
+    public void removePiece(Position position){
+        int row = position.getRow();
+        int col = position.getCol();
+        this.squares[row][col].setIcon(null);
     }
 
     public void setSquareColor(Position position){

@@ -28,6 +28,7 @@ public class Piece {
     public String getIconKey(){
         return color + "_" + name;
     }
+
 }
 
 
