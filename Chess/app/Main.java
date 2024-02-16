@@ -1,17 +1,17 @@
 package app;
 
 import model.Board;
-import model.Position;
 import model.Utils;
-import view.ChessFrame;
-
-import java.util.List;
+import view.ChessView;
 
 public class Main {
     
     public static void main(String[] args) {
 
-        ChessFrame frame = new ChessFrame();
+        ChessView view = new ChessView();
+        Board board = Utils.createGame(view);
+
+
         }
     }
 

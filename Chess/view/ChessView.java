@@ -1,14 +1,12 @@
 package view;
 
-import model.Constants;
-
 import javax.swing.*;
 
-public class ChessFrame extends JFrame {
+public class ChessView extends JFrame {
 
     private ChessBoard chessBoard;
 
-    public ChessFrame(){
+    public ChessView(){
         this.chessBoard = new ChessBoard();
         this.initComponents();
         this.setChessFrame();
@@ -20,7 +18,11 @@ public class ChessFrame extends JFrame {
 
     public void setChessFrame(){
         this.setVisible(true);
-        this.setSize(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
+        this.setSize(ViewConstants.SCREEN_WIDTH, ViewConstants.SCREEN_HEIGHT);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+    public ChessBoard getChessBoard() {
+        return chessBoard;
+    }
 }

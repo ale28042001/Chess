@@ -10,6 +10,8 @@ public class ChessBoard extends JPanel {
     public ChessBoard() {
         this.squares = setButtons();
         super.setLayout(new GridLayout(8,8));
+
+        // adds aquares (JButtons) to grid
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 this.add(squares[i][j]);
@@ -28,19 +30,23 @@ public class ChessBoard extends JPanel {
         return buttons;
     }
 
+    // Creates a new button and sets its color depending on the position of the button in the grid
     public JButton createButton(int row, int col){
         Color color;
         JButton btn = new JButton();
 
         if((row + col) % 2 == 0){
-            color = Color.WHITE;
+            color = ViewConstants.COLOR_BEIGE;
         }
 
         else{
-            color = Color.BLACK;
+            color = ViewConstants.COLOR_BROWN;
         }
-
         btn.setBackground(color);
         return btn;
+    }
+
+    public void setPiece(int row, int column){
+        this.squares[row][column].setIcon(ViewConstants.BLACK_BISHOP);
     }
 }

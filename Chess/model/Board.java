@@ -1,13 +1,18 @@
 package model;
 
+import view.ChessView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Board {
-    public Piece[][] positions;
 
-    public Board() {
+    private Piece[][] positions;
+    private ChessView chessBoard;
+
+
+    public Board(ChessView chessBoard) {
         this.positions = new Piece[8][8];
     }
 
@@ -38,9 +43,9 @@ public class Board {
         List<Position> possibleMoves = new ArrayList<>();
 
         // For a pawn
-        if (piece.name.equals("Pawn")) {
+        if (piece.name.equals("PAWN")) {
             
-            int direction = piece.color.equals("White") ? 1 : -1;
+            int direction = piece.color.equals("WHITE") ? 1 : -1;
 
             // Forward move
             int newRow = row + direction;
@@ -59,7 +64,7 @@ public class Board {
             }
         }
         // For a knight
-        if (piece.name.equals("Knight")) {
+        if (piece.name.equals("KNIGHT")) {
             // Define all possible knight move offsets
             int[][] knightMoves = Constants.KNIGHT_MOVES;
 
@@ -74,7 +79,7 @@ public class Board {
             }
         }
         // For a rook
-        if (piece.name.equals("Rook")) {
+        if (piece.name.equals("ROOK")) {
             // Check moves in the same row
             for (int newCol = col - 1; newCol >= 0; newCol--) {
                 if (positions[row][newCol] == null) {
@@ -120,7 +125,7 @@ public class Board {
             }
         }
         // For a bishop
-        if (piece.name.equals("Bishop")) {
+        if (piece.name.equals("BISHOP")) {
             // Check moves in diagonal directions
             // Upper left diagonal
             for (int newRow = row - 1, newCol = col - 1; newRow >= 0 && newCol >= 0; newRow--, newCol--) {
@@ -171,7 +176,7 @@ public class Board {
             }
         }
         // For a queen
-        if (piece.name.equals("Queen")) {
+        if (piece.name.equals("QUEEN")) {
             // Check horizontal and vertical moves (rook-like moves)
             //possibleMoves.addAll(calculateRookMoves(row, col));
 
@@ -179,7 +184,7 @@ public class Board {
             //possibleMoves.addAll(calculateBishopMoves(row, col));
         }
         // For a king
-        if (piece.name.equals("King")) {
+        if (piece.name.equals("KING")) {
             // Define all possible king move offsets
             int[][] kingMoves = Constants.KING_MOVES;
 
@@ -231,5 +236,14 @@ public class Board {
         positions[destRow][destCol] = piece;
         positions[startRow][startCol] = null;
         System.out.println("model.Piece moved successfully.");
+    }
+
+    // Getters and setters
+    public Piece[][] getPositions() {
+        return positions;
+    }
+
+    public void placePiece( Piece piece, int row, int col){
+        this.positions[row][col] = piece;
     }
 }
