@@ -14,7 +14,6 @@ public class Main {
         Controller controller = new Controller(view, model);
         controller.setPieces();
 
-
         }
     }
 
