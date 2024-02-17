@@ -7,6 +7,7 @@ import view.ChessView;
 import view.Square;
 import view.ViewConstants;
 
+import java.util.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,7 +30,12 @@ public class Controller implements ActionListener {
         Object source = e.getSource();
 
         if(source instanceof Square){
-            Square square = (Square) source;
+            Square a= new Square(0, 0);
+            List<Position> pieceMoves = model.calculatorMoves.calculatePieceMoves(a.getPosition(),model.getPositions());
+            List<Position> playerMoves = model.calculatorMoves.calculatePlayerMoves(
+                model.getPositions()[a.getRow()][a.getCol()].color, model.getPositions());
+            System.out.println(pieceMoves);
+            //Square square = (Square) source;
         }
     }
 

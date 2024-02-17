@@ -17,4 +17,14 @@ public class Square extends JButton {
     public Position getPosition(){
         return new Position(this.row, this.col);
     }
+
+    public int getRow()
+    {
+        return this.row;
+    }
+
+    public int getCol()
+    {
+        return this.col;
+    }
 }
