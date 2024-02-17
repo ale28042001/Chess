@@ -35,8 +35,7 @@ public class Controller implements ActionListener {
             List<Position> playerMoves = model.calculatorMoves.calculatePlayerMoves(
                 model.getPositions()[a.getRow()][a.getCol()].color, model.getPositions());
             System.out.println(pieceMoves);
-            //Square square = (Square) source;
-            this.model.setPosition(square.getPosition());
+            
             System.out.println("Start " + this.model.getStartPosition());
             System.out.println("End " + this.model.getDestPosition());
             setPieces();

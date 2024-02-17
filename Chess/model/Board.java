@@ -2,7 +2,7 @@ package model;
 
 import view.ChessView;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ import java.util.Optional;
 public class Board {
 
     private Piece[][] positions;
-    private ChessView chessBoard;
+    //private ChessView chessBoard;
     Position startPosition;
     Position destPosition;
     String playerInTurn;

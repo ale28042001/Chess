@@ -8,7 +8,7 @@ import java.awt.*;
 public class ChessBoardView extends JPanel {
 
     private Square[][] squares;
-    private GridLayout grid;
+    //private GridLayout grid;
     public ChessBoardView() {
         this.squares = setSquares();
 
