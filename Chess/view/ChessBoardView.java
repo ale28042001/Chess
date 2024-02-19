@@ -8,7 +8,7 @@ import java.awt.*;
 public class ChessBoardView extends JPanel {
 
     private Square[][] squares;
-    //private GridLayout grid;
+    private GridLayout grid;
     public ChessBoardView() {
         this.squares = setSquares();
 
@@ -51,17 +51,9 @@ public class ChessBoardView extends JPanel {
         return square;
     }
 
-    public void setPiece(String iconKey, Position position){
-        int row = position.getRow();
-        int col = position.getCol();
+    public void setPiece(String iconKey, int row, int column){
         Icon icon = ViewConstants.ICONS.getIcon(iconKey);
-        this.squares[row][col].setIcon(icon);
-    }
-
-    public void removePiece(Position position){
-        int row = position.getRow();
-        int col = position.getCol();
-        this.squares[row][col].setIcon(null);
+        this.squares[row][column].setIcon(icon);
     }
 
     public void setSquareColor(Position position){

@@ -6,7 +6,7 @@ import java.util.function.BiConsumer;
 
 public class Moves {
     private final Map<String, BiConsumer<Position, Piece[][]>> moveCalculations;
-
+    private List<Position> possibleMoves = new ArrayList<>();
     
     public Moves() {
         moveCalculations = new HashMap<>();
@@ -14,6 +14,8 @@ public class Moves {
         moveCalculations.put("Knight", this::calculateKnightMoves);
         moveCalculations.put("Rook", this::calculateRookMoves);
         moveCalculations.put("Bishop", this::calculateBishopMoves);
+        moveCalculations.put("Queen", this::calculateQueenMoves);
+        moveCalculations.put("King", this::calculateKingMoves);
         // Add other pieces as needed
     }
 
@@ -24,10 +26,9 @@ public class Moves {
             System.out.println("No piece found at the source position.");
             return new ArrayList<>();
         }
-
-        List<Position> possibleMoves = new ArrayList<>();
+        System.out.println(piece.name);
         moveCalculations.getOrDefault(piece.name, (p, pos) -> {}).accept(position, positions);
-        return possibleMoves;
+        return this.possibleMoves;
     
     }
 
@@ -39,7 +40,7 @@ public class Moves {
     }
 
     // Method to calculate possible moves for a Pawn
-    public List<Position> calculatePawnMoves(Position position, Piece[][] positions) {
+    public void calculatePawnMoves(Position position, Piece[][] positions) {
         int row = position.getRow();
         int col = position.getCol();
         List<Position> possibleMoves = new ArrayList<>();
@@ -55,6 +56,13 @@ public class Moves {
             possibleMoves.add(newPosition);
         }
 
+        newRow = newRow + direction;
+        newPosition= new Position(newRow, col);
+
+        if (isValidPosition(newPosition) && positions[newRow][col] == null && (row == 1 || row == 6)) {
+            possibleMoves.add(newPosition);
+        }
+        
         // Diagonal capture moves
         int[] captureCols = {col - 1, col + 1};
         for (int captureCol : captureCols) {
@@ -64,11 +72,11 @@ public class Moves {
                 possibleMoves.add(newPosition);
             }
         }
-        return possibleMoves;
+        this.possibleMoves=possibleMoves;
     }
 
     // Method to calculate possible moves for a Knight
-    public List<Position> calculateKnightMoves(Position position, Piece[][] positions) {
+    public void calculateKnightMoves(Position position, Piece[][] positions) {
         int row = position.getRow();
         int col = position.getCol();
         Piece piece = positions[row][col];
@@ -85,11 +93,11 @@ public class Moves {
                 possibleMoves.add(newPosition);
             }
         }
-        return possibleMoves;
+        this.possibleMoves=possibleMoves;
     }
 
     // Method to calculate possible moves for a Rook
-    public List<Position> calculateRookMoves(Position position, Piece[][] positions) {
+    public void calculateRookMoves(Position position, Piece[][] positions) {
         int row = position.getRow();
         int col = position.getCol();
         Piece piece = positions[row][col];
@@ -141,11 +149,11 @@ public class Moves {
         }
 
 
-        return possibleMoves;
+        this.possibleMoves=possibleMoves;
     }
 
     // Method to calculate possible moves for a Bishop
-    public List<Position> calculateBishopMoves(Position position, Piece[][] positions) {
+    public void calculateBishopMoves(Position position, Piece[][] positions) {
         int row = position.getRow();
         int col = position.getCol();
         Piece piece = positions[row][col];
@@ -200,25 +208,26 @@ public class Moves {
             }
         }
 
-        return possibleMoves;
+        this.possibleMoves=possibleMoves;
     }
 
     // Method to calculate possible moves for a Queen
-    public List<Position> calculateQueenMoves(Position position, Piece[][] positions) {
+    public void calculateQueenMoves(Position position, Piece[][] positions) {
         List<Position> possibleMoves = new ArrayList<>();
         // Implement the logic for calculating possible moves for the Queen
 
         // Check horizontal and vertical moves (rook-like moves)
-        possibleMoves.addAll(calculateRookMoves(position,positions));
-
+        calculateRookMoves(position,positions);
+        possibleMoves=this.possibleMoves;
         // Check diagonal moves (bishop-like moves)
-        possibleMoves.addAll(calculateBishopMoves(position,positions));
+        calculateBishopMoves(position,positions);
+        possibleMoves.addAll(this.possibleMoves);
 
-        return possibleMoves;
+        this.possibleMoves=possibleMoves;
     }
 
     // Method to calculate possible moves for a King
-    public List<Position> calculateKingMoves(Position position, Piece[][] positions) {
+    public void calculateKingMoves(Position position, Piece[][] positions) {
         int row = position.getRow();
         int col = position.getCol();
         String color = positions[row][col].getColor();
@@ -238,19 +247,21 @@ public class Moves {
             }
         }
 
-        return possibleMoves;
+        this.possibleMoves=possibleMoves;
     }
 
     public List<Position> calculatePlayerMoves(String color, Piece[][] positions)
     {
         List<Position> possibleMoves = new ArrayList<>();
+        this.possibleMoves= possibleMoves;
         for (int i=0;i<8;i++) 
         {
             for (int j=0;j<8;j++) 
             {
                 if(positions[i][j].color.equals(color))
                 {
-                    possibleMoves.add(new Position(i, j));
+                    calculatePieceMoves(new Position(i, j),positions);
+                    possibleMoves.addAll(this.possibleMoves);
                 }
             }
         }
