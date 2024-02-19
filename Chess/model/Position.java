@@ -21,4 +21,8 @@ public class Position {
     public String toString() {
         return "(" + row + "," + col + ")";
     }
+
+    public boolean equals(Position position){
+        return (this.getRow() == position.getRow() && this.getCol() == position.getCol());
+    }
 }

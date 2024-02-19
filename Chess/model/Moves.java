@@ -56,13 +56,6 @@ public class Moves {
             possibleMoves.add(newPosition);
         }
 
-        newRow = newRow + direction;
-        newPosition= new Position(newRow, col);
-
-        if (isValidPosition(newPosition) && positions[newRow][col] == null && (row == 1 || row == 6)) {
-            possibleMoves.add(newPosition);
-        }
-        
         // Diagonal capture moves
         int[] captureCols = {col - 1, col + 1};
         for (int captureCol : captureCols) {
@@ -72,6 +65,14 @@ public class Moves {
                 possibleMoves.add(newPosition);
             }
         }
+
+        newRow = newRow + direction;
+        newPosition= new Position(newRow, col);
+
+        if (isValidPosition(newPosition) && positions[newRow][col] == null && (row == 1 || row == 6)) {
+            possibleMoves.add(newPosition);
+        }
+        
         this.possibleMoves=possibleMoves;
     }
 
@@ -273,4 +274,19 @@ public class Moves {
         return enemiAttacList.contains(kingPosition);
     }
 
+    public List<Position> getPossibleMoves()
+    {
+        return this.possibleMoves;
+    }
+
+    public boolean containsPosition(Position p)
+    {
+        boolean a = false;
+
+        for (Position position : this.possibleMoves) {
+            if(position.equals(p))
+            a = true;
+        }
+        return a;
+    }
 }

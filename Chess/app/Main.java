@@ -12,6 +12,6 @@ public class Main {
         ChessView view = new ChessView();
         Board model = Utils.createGame(view);
         Controller controller = new Controller(view, model);
-        controller.setPieces();        
+        controller.repaintPieces();        
         }
     }

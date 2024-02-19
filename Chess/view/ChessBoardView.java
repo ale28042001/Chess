@@ -35,33 +35,41 @@ public class ChessBoardView extends JPanel {
         return squares;
     }
 
-    // Creates a new sauqre and sets its color depending on the position of the button in the grid
-    public Square createSquare(int row, int col){
-        Color color;
-        Square square = new Square(row, col);
-
-        if((row + col) % 2 == 0){
-            color = ViewConstants.COLOR_BEIGE;
+        // Creates a new sauqre and sets its color depending on the position of the button in the grid
+        public Square createSquare(int row, int col){
+            Color color;
+            Square square = new Square(row, col);
+    
+            if((row + col) % 2 == 0){
+                color = ViewConstants.COLOR_BEIGE;
+            }
+    
+            else{
+                color = ViewConstants.COLOR_BROWN;
+            }
+            square.setBackground(color);
+            return square;
         }
-
-        else{
-            color = ViewConstants.COLOR_BROWN;
+    
+        public void setPiece(String iconKey, Position position){
+            int row = position.getRow();
+            int col = position.getCol();
+            Icon icon = ViewConstants.ICONS.getIcon(iconKey);
+            this.squares[row][col].setIcon(icon);
         }
-        square.setBackground(color);
-        return square;
-    }
-
-    public void setPiece(String iconKey, int row, int column){
-        Icon icon = ViewConstants.ICONS.getIcon(iconKey);
-        this.squares[row][column].setIcon(icon);
-    }
-
-    public void setSquareColor(Position position){
-        this.squares[position.getRow()][position.getCol()].setBackground(Color.GREEN);
-    }
-
-    //Getters
-    public JButton[][] getSquares() {
-        return squares;
-    }
+    
+        public void removePiece(Position position){
+            int row = position.getRow();
+            int col = position.getCol();
+            this.squares[row][col].setIcon(null);
+        }
+    
+        public void setSquareColor(Position position){
+            this.squares[position.getRow()][position.getCol()].setBackground(Color.GREEN);
+        }
+    
+        //Getters
+        public JButton[][] getSquares() {
+            return squares;
+        }
 }
