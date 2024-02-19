@@ -18,6 +18,7 @@ public class Board {
 
 
     public Board(ChessView chessBoard) {
+        this.chessBoard = chessBoard;
         this.positions = new Piece[8][8];
         this.startPosition = new Position(-1,-1);
         this.destPosition = new Position(-1,-1);
@@ -100,17 +101,26 @@ public class Board {
             if(calculatorMoves.containsPosition(position))
             {
                 movePiece();
+                this.chessBoard.getChessBoard().resetSquareColors();
                 resetPositions();
                 changePlayerInTurn();
             }
             else            
             resetPositions();
+            this.chessBoard.getChessBoard().resetSquareColors();
+
                 
         }
 
         else if(!isStartPositionSet() && !isEmpty(position) && playerInTurn.equals(getPositionColor(position))){
+            this.chessBoard.getChessBoard().resetSquareColors();
             startPosition = position;
             List<Position> possibleMoves = calculatorMoves.calculatePieceMoves(position, this.positions);
+            if(!possibleMoves.isEmpty()){
+                for (Position p : possibleMoves){
+                    this.chessBoard.getChessBoard().setSquareColor(p);
+                }
+            }
             //System.out.println(possibleMoves);
             
         }

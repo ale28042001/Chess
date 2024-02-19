@@ -67,6 +67,26 @@ public class ChessBoardView extends JPanel {
         public void setSquareColor(Position position){
             this.squares[position.getRow()][position.getCol()].setBackground(Color.GREEN);
         }
+
+        public void resetSquareColors(){
+            Color color;
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    Square square = squares[i][j];
+
+                    if((i + j) % 2 == 0){
+                        color = ViewConstants.COLOR_BEIGE;
+                    }
+
+                    else{
+                        color = ViewConstants.COLOR_BROWN;
+                    }
+                    square.setBackground(color);
+
+                }
+            }
+
+        }
     
         //Getters
         public JButton[][] getSquares() {
