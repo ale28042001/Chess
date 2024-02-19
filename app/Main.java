@@ -12,5 +12,6 @@ public class Main {
         Board model = Utils.createGame(view);
         Controller controller = new Controller(view, model);
         controller.repaintPieces();
+
         }
     }
