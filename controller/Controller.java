@@ -31,8 +31,6 @@ public class Controller implements ActionListener {
         if(source instanceof Square){
             Square square = (Square) source;
             this.model.setPosition(square.getPosition());
-            System.out.println("Start " + this.model.getStartPosition());
-            System.out.println("End " + this.model.getDestPosition());
             repaintPieces();
         }
     }

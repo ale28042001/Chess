@@ -259,7 +259,8 @@ public class Moves {
         {
             for (int j=0;j<8;j++) 
             {
-                if(positions[i][j].color.equals(color))
+                //TODO hacer esto más bonito con Optional
+                if(positions[i][j] != null && positions[i][j].color.equals(color))
                 {
                     calculatePieceMoves(new Position(i, j),positions);
                     possibleMoves.addAll(this.possibleMoves);
@@ -271,7 +272,13 @@ public class Moves {
     
     public boolean jaque(Position kingPosition, List<Position> enemiAttacList)
     {
-        return enemiAttacList.contains(kingPosition);
+        System.out.println("Verifica:" + enemiAttacList.contains(kingPosition));
+        for (Position p: enemiAttacList){
+            if(p.equals(kingPosition)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<Position> getPossibleMoves()
