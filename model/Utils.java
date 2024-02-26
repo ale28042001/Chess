@@ -35,6 +35,9 @@ public class Utils {
             board.placePiece(new Piece("Pawn", "Black"), 6, i);
         }
 
+        board.setBlackKing(new Position(7,4));
+        board.setWhiteKing(new Position(0,4));
+
         return board;
     }
 }

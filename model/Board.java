@@ -16,6 +16,14 @@ public class Board {
     String playerInTurn;
     private Moves calculatorMoves = new Moves();
 
+    // Kings' position
+    private Position blackKing;
+    private Position whiteKing;
+
+
+
+
+
 
     public Board(ChessView chessBoard) {
         this.chessBoard = chessBoard;
@@ -70,6 +78,14 @@ public class Board {
 
         // If all checks pass, move the piece
         positions[destRow][destCol] = piece;
+        if (piece.getName().equals("King")){
+            if (piece.getColor().equals("Black")){
+                this.setBlackKing(new Position(destRow, destCol));
+            }
+            else if (piece.getColor().equals("White")){
+                this.setWhiteKing(new Position(destRow, destCol));
+            }
+        }
         positions[startRow][startCol] = null;
         System.out.println("model.Piece moved successfully.");
     }
@@ -176,5 +192,21 @@ public class Board {
     public void setStartPosition(Position startPosition)
     {
         this.startPosition = startPosition;
+    }
+
+    public Position getBlackKing() {
+        return blackKing;
+    }
+
+    public void setBlackKing(Position blackKing) {
+        this.blackKing = blackKing;
+    }
+
+    public Position getWhiteKing() {
+        return whiteKing;
+    }
+
+    public void setWhiteKing(Position whiteKing) {
+        this.whiteKing = whiteKing;
     }
 }
