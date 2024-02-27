@@ -19,7 +19,7 @@ public class Board {
     // Kings' position
     private Position blackKing;
     private Position whiteKing;
-
+    private boolean banderaJaque = true;
 
 
 
@@ -81,8 +81,15 @@ public class Board {
         // You need to implement rules for each piece type to determine if the move is valid
 
         // If all checks pass, move the piece
-
+        List<Position> ac = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
+        if(calculatorMoves.jaque(myKing, ac))
+        {
+            System.out.println("Jaque");
+            banderaJaque = false;
+        }
+        // change the color of my king
         positions[destRow][destCol] = piece;
+        positions[startRow][startCol] = null;
 
         if (piece.getName().equals("King")){
             if (piece.getColor().equals("Black")){
@@ -92,23 +99,33 @@ public class Board {
                 this.setWhiteKing(new Position(destRow, destCol));
             }
         }
-
-        if(calculatorMoves.jaque(myKing, calculatorMoves.calculatePlayerMoves(enemyColor, positions))){
-            System.out.println("Paila porque en jaque");
-            positions[destRow][destCol] = null;
-            positions[startRow][startCol] = piece;
-            this.resetPositions();
-            return false;
-
-
+        
+        myKing = this.playerInTurn.equals("White") ? this.whiteKing : this.blackKing;
+        List<Position> acf = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
+        System.out.println("Pieza movida"+calculatorMoves.calculatePieceMoves(new Position(destRow, destCol), positions));
+        System.out.println(ac);
+        System.out.println(myKing);
+        if(calculatorMoves.jaque(myKing, acf))
+        {
+            System.out.println("Jaque");
+            this.positions[destRow][destCol] = null;
+            this.positions[startRow][startCol] = piece;
+            banderaJaque = false;
+        }
+        else{
+            banderaJaque = true;
         }
 
 
-        positions[startRow][startCol] = null;
+
+        
+        
         System.out.println("model.Piece moved successfully.");
 
-        return true;
+        return banderaJaque;
     }
+
+    
 
     // Getters and setters
     public Piece[][] getPositions() {
@@ -141,6 +158,11 @@ public class Board {
                     resetPositions();
                     changePlayerInTurn();
                 }
+                else{
+                    this.chessBoard.getChessBoard().resetSquareColors();
+                    resetPositions();
+                }
+                
 
             }
             else            
