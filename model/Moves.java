@@ -251,6 +251,23 @@ public class Moves {
         this.possibleMoves=possibleMoves;
     }
 
+    public List<Position> findMyPieces(String color, Piece[][] positions)
+    {
+        List<Position> myPieces = new ArrayList<>();
+        for (int i=0;i<8;i++) 
+        {
+            for (int j=0;j<8;j++) 
+            {
+                //TODO hacer esto más bonito con Optional
+                if(positions[i][j] != null && positions[i][j].color.equals(color))
+                {
+                    myPieces.add((new Position(i, j)));
+                }
+            }
+        }
+        return myPieces;
+    }
+
     public List<Position> calculatePlayerMoves(String color, Piece[][] positions)
     {
         List<Position> possibleMoves = new ArrayList<>();

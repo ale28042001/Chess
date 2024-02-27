@@ -20,7 +20,7 @@ public class Board {
     private Position blackKing;
     private Position whiteKing;
     private boolean banderaJaque = true;
-
+    private boolean hayGanador = false;
 
 
 
@@ -46,6 +46,28 @@ public class Board {
         List<Position> possibleMoves = calculatorMoves.calculatePieceMoves(position,positions);
 
         return possibleMoves;
+    }
+
+
+    public boolean analisisJaque(Position myKing, List<Position> ac)
+    {
+        if(!this.banderaJaque)
+        {
+            List<Position> myPieces = calculatorMoves.findMyPieces(playerInTurn, positions);
+            for (Position position : myPieces) {
+                calculatorMoves.calculatePieceMoves(position, positions);
+                for(Position position2 : calculatorMoves.getPossibleMoves()){
+                    positions[position2.row][position2.col] = positions[position.row][position.col];
+                    positions[position.row][position.col] = null;
+                    if(calculatorMoves.jaque(myKing, ac))
+                    {
+                        this.banderaJaque=true;
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
 
@@ -86,8 +108,12 @@ public class Board {
         {
             System.out.println("Jaque");
             banderaJaque = false;
+            this. hayGanador = analisisJaque(enemyKing, ac);
         }
-        // change the color of my king
+
+        if (this.hayGanador == true)
+            return true;
+        
         positions[destRow][destCol] = piece;
         positions[startRow][startCol] = null;
 
@@ -154,6 +180,8 @@ public class Board {
             if(calculatorMoves.containsPosition(position))
             {
                 if(movePiece()){
+                    if(this.hayGanador)
+                        System.exit(0);
                     this.chessBoard.getChessBoard().resetSquareColors();
                     resetPositions();
                     changePlayerInTurn();
