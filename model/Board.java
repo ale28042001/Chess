@@ -117,46 +117,47 @@ public class Board {
 
         // If all checks pass, move the piece
         List<Position> ac = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
-if (calculatorMoves.jaque(myKing, ac)) {
-    System.out.println("Jaque");
-    banderaJaque = false;
-    this.hayGanador = analisisJaque(enemyKing, ac);
-}
+        
+        if (calculatorMoves.jaque(myKing, ac)) {
+            System.out.println("Jaque");
+            banderaJaque = false;
+            this.hayGanador = analisisJaque(enemyKing, ac);
+        }
 
-System.out.println("Hay ganador: " + this.hayGanador);
+        System.out.println("Hay ganador: " + this.hayGanador);
 
-if (this.hayGanador) {
-    return true;
-}
+        if (this.hayGanador) {
+            return true;
+        }
 
-Piece deadFlag = positions[destRow][destCol];
+        Piece deadFlag = positions[destRow][destCol];
 
-positions[destRow][destCol] = piece;
-positions[startRow][startCol] = null;
+        positions[destRow][destCol] = piece;
+        positions[startRow][startCol] = null;
 
-if (piece.getName().equals("King")) {
-    if (piece.getColor().equals("Black")) {
-        this.setBlackKing(new Position(destRow, destCol));
-    } else if (piece.getColor().equals("White")) {
-        this.setWhiteKing(new Position(destRow, destCol));
-    }
-}
+        if (piece.getName().equals("King")) {
+            if (piece.getColor().equals("Black")) {
+                this.setBlackKing(new Position(destRow, destCol));
+            } else if (piece.getColor().equals("White")) {
+                this.setWhiteKing(new Position(destRow, destCol));
+            }
+        }
 
-myKing = this.playerInTurn.equals("White") ? this.whiteKing : this.blackKing;
-List<Position> acf = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
+        myKing = this.playerInTurn.equals("White") ? this.whiteKing : this.blackKing;
+        List<Position> acf = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
 
-if (calculatorMoves.jaque(myKing, acf)) {
-    System.out.println("Jaque");
-    this.positions[destRow][destCol] = deadFlag;
-    this.positions[startRow][startCol] = piece;
-    banderaJaque = false;
-} else {
-    banderaJaque = true;
-}        
+        if (calculatorMoves.jaque(myKing, acf)) {
+            System.out.println("Jaque");
+            this.positions[destRow][destCol] = deadFlag;
+            this.positions[startRow][startCol] = piece;
+            banderaJaque = false;
+        } else {
+            banderaJaque = true;
+        }        
 
-System.out.println("Pieza movida correctamente.");
+        System.out.println("Pieza movida correctamente.");
 
-return banderaJaque;
+        return banderaJaque;
 
     }
 
@@ -291,3 +292,47 @@ return banderaJaque;
         this.whiteKing = whiteKing;
     }
 }
+
+/*
+ * List<Position> ac = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
+if (calculatorMoves.jaque(myKing, ac)) {
+    System.out.println("Jaque");
+    banderaJaque = false;
+    this.hayGanador = analisisJaque(enemyKing, ac);
+}
+
+System.out.println("Hay ganador: " + this.hayGanador);
+
+if (this.hayGanador) {
+    return true;
+}
+
+Piece deadFlag = positions[destRow][destCol];
+
+positions[destRow][destCol] = piece;
+positions[startRow][startCol] = null;
+
+if (piece.getName().equals("King")) {
+    if (piece.getColor().equals("Black")) {
+        this.setBlackKing(new Position(destRow, destCol));
+    } else if (piece.getColor().equals("White")) {
+        this.setWhiteKing(new Position(destRow, destCol));
+    }
+}
+
+myKing = this.playerInTurn.equals("White") ? this.whiteKing : this.blackKing;
+List<Position> acf = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
+
+if (calculatorMoves.jaque(myKing, acf)) {
+    System.out.println("Jaque");
+    this.positions[destRow][destCol] = deadFlag;
+    this.positions[startRow][startCol] = piece;
+    banderaJaque = false;
+} else {
+    banderaJaque = true;
+}        
+
+System.out.println("Pieza movida correctamente.");
+
+return banderaJaque;
+ */
