@@ -32,6 +32,10 @@ public class Controller implements ActionListener {
             Square square = (Square) source;
             this.model.setPosition(square.getPosition());
             repaintPieces();
+            if(!this.model.isBanderaJaque() && !this.model.isStartPositionSet() && !model.isDestPositionSet()){
+                JOptionPane.showMessageDialog(null, "Check for " + this.model.getPlayerInTurn() + " King");
+            }
+
         }
     }
 

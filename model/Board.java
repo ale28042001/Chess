@@ -2,6 +2,7 @@ package model;
 
 import view.ChessView;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ public class Board {
     private ChessView chessBoard;
     private Position startPosition;
     private Position destPosition;
-    String playerInTurn;
+    private String playerInTurn;
     private Moves calculatorMoves = new Moves();
 
     // Kings' position
@@ -67,10 +68,7 @@ public class Board {
                     tempPositions[position.row][position.col] = null;
                     
                     List<Position> ac= calculatorMoves.calculatePlayerMoves(enemyColor, tempPositions);
-                    if (!calculatorMoves.jaque(myKing, ac)) {
-                        // Found a move that doesn't result in check
-                        return false;
-                    }
+                    checkJaque();
                 }
             }
         }
@@ -123,9 +121,7 @@ public class Board {
         List<Position> ac = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
         
         if (calculatorMoves.jaque(myKing, ac)) {
-            System.out.println("Jaque");
             banderaJaque = false;
-            this.hayGanador = analisisJaque(enemyKing, enemyColor);
         }
 
         System.out.println("Hay ganador: " + this.hayGanador);
@@ -151,7 +147,6 @@ public class Board {
         List<Position> acf = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
 
         if (calculatorMoves.jaque(myKing, acf)) {
-            System.out.println("Jaque");
             this.positions[destRow][destCol] = deadFlag;
             this.positions[startRow][startCol] = piece;
             banderaJaque = false;
@@ -199,6 +194,7 @@ public class Board {
                     if(this.hayGanador)
                         System.exit(0);
                     this.chessBoard.getChessBoard().resetSquareColors();
+                    checkJaque();
                     resetPositions();
                     changePlayerInTurn();
                 }
@@ -210,8 +206,6 @@ public class Board {
             else            
             resetPositions();
             this.chessBoard.getChessBoard().resetSquareColors();
-
-                
         }
 
         else if(!isStartPositionSet() && !isEmpty(position) && playerInTurn.equals(getPositionColor(position))){
@@ -226,6 +220,19 @@ public class Board {
             //System.out.println(possibleMoves);
             
         }
+    }
+
+    public void checkJaque(){
+        String mycolor = this.playerInTurn;
+        Position enemyKing = this.playerInTurn.equals("White") ? this.blackKing : this.whiteKing;
+        System.out.println(enemyKing);
+        System.out.println("Yo soy" + mycolor);
+        List<Position> myPossibleMoves = calculatorMoves.calculatePlayerMoves(mycolor, this.positions);
+        if(calculatorMoves.jaque(enemyKing, myPossibleMoves)){
+            this.banderaJaque = false;
+        }
+
+
     }
 
     public String getPositionColor(Position position){
@@ -295,48 +302,13 @@ public class Board {
     public void setWhiteKing(Position whiteKing) {
         this.whiteKing = whiteKing;
     }
-}
 
-/*
- * List<Position> ac = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
-if (calculatorMoves.jaque(myKing, ac)) {
-    System.out.println("Jaque");
-    banderaJaque = false;
-    this.hayGanador = analisisJaque(enemyKing, ac);
-}
+    public boolean isBanderaJaque() {
+        return banderaJaque;
+    }
 
-System.out.println("Hay ganador: " + this.hayGanador);
-
-if (this.hayGanador) {
-    return true;
-}
-
-Piece deadFlag = positions[destRow][destCol];
-
-positions[destRow][destCol] = piece;
-positions[startRow][startCol] = null;
-
-if (piece.getName().equals("King")) {
-    if (piece.getColor().equals("Black")) {
-        this.setBlackKing(new Position(destRow, destCol));
-    } else if (piece.getColor().equals("White")) {
-        this.setWhiteKing(new Position(destRow, destCol));
+    public String getPlayerInTurn() {
+        return playerInTurn;
     }
 }
 
-myKing = this.playerInTurn.equals("White") ? this.whiteKing : this.blackKing;
-List<Position> acf = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
-
-if (calculatorMoves.jaque(myKing, acf)) {
-    System.out.println("Jaque");
-    this.positions[destRow][destCol] = deadFlag;
-    this.positions[startRow][startCol] = piece;
-    banderaJaque = false;
-} else {
-    banderaJaque = true;
-}        
-
-System.out.println("Pieza movida correctamente.");
-
-return banderaJaque;
- */

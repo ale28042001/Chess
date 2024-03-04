@@ -26,7 +26,6 @@ public class Moves {
             System.out.println("No piece found at the source position.");
             return new ArrayList<>();
         }
-        System.out.println(piece.name);
         moveCalculations.getOrDefault(piece.name, (p, pos) -> {}).accept(position, positions);
         return this.possibleMoves;
     
@@ -289,7 +288,6 @@ public class Moves {
     
     public boolean jaque(Position kingPosition, List<Position> enemiAttacList)
     {
-        System.out.println("Verifica:" + enemiAttacList.contains(kingPosition));
         for (Position p: enemiAttacList){
             if(p.equals(kingPosition)){
                 return true;
