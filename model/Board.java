@@ -20,9 +20,8 @@ public class Board {
     private Position blackKing;
     private Position whiteKing;
 
-
-
-
+    private boolean checkOnBlack;
+    private boolean checkOnWhite;
 
 
     public Board(ChessView chessBoard) {
@@ -31,6 +30,8 @@ public class Board {
         this.startPosition = new Position(-1,-1);
         this.destPosition = new Position(-1,-1);
         this.playerInTurn = "White";
+        this.checkOnWhite = false;
+        this.checkOnBlack = false;
     }
 
     // Method to calculate possible moves for a piece
@@ -49,35 +50,47 @@ public class Board {
     }
 
 
-    public void movePiece() {
+    public boolean movePiece() {
         int startRow = this.startPosition.getRow();
         int startCol = this.startPosition.getCol();
         int destRow = this.destPosition.getRow();
         int destCol = this.destPosition.getCol();
 
+        String enemyColor = this.playerInTurn.equals("White") ? "Black" : "White";
+        Position myKing = this.playerInTurn.equals("White") ? this.whiteKing : this.blackKing;
+        Position enemyKing = this.playerInTurn.equals("White") ? this.blackKing : this.whiteKing;
+
         Piece piece = positions[startRow][startCol];
         if (piece == null) {
             System.out.println("No piece found at the starting position.");
-            return;
+            return false;
         }
 
         // Check if the destination position is within bounds
         if (destRow < 0 || destRow >= 8 || destCol < 0 || destCol >= 8) {
-            System.out.println("Invalid destination position.");
-            return;
+            return false;
         }
 
         // Check if the destination position is occupied by own piece
         if (positions[destRow][destCol] != null && positions[destRow][destCol].color.equals(piece.color)) {
-            System.out.println("Cannot move to a position occupied by your own piece.");
-            return;
+            return false;
         }
 
         // Check for valid move based on piece type (not implemented here)
         // You need to implement rules for each piece type to determine if the move is valid
 
         // If all checks pass, move the piece
+
         positions[destRow][destCol] = piece;
+
+        List<Position> newPositions = calculatorMoves.calculatePieceMoves(this.destPosition,this.positions);
+        for (Position p: newPositions){
+            System.out.println("Verificando " + p);
+            if(p.equals(enemyKing)){
+                System.out.println("Hay Jaque");
+            }
+        }
+
         if (piece.getName().equals("King")){
             if (piece.getColor().equals("Black")){
                 this.setBlackKing(new Position(destRow, destCol));
@@ -86,8 +99,18 @@ public class Board {
                 this.setWhiteKing(new Position(destRow, destCol));
             }
         }
+
+        if(calculatorMoves.jaque(myKing, calculatorMoves.calculatePlayerMoves(enemyColor, positions))){
+            positions[destRow][destCol] = null;
+            positions[startRow][startCol] = piece;
+            this.resetPositions();
+            return false;
+        }
+
+
         positions[startRow][startCol] = null;
-        System.out.println("model.Piece moved successfully.");
+
+        return true;
     }
 
     // Getters and setters
@@ -116,10 +139,12 @@ public class Board {
             this.destPosition = position;
             if(calculatorMoves.containsPosition(position))
             {
-                movePiece();
-                this.chessBoard.getChessBoard().resetSquareColors();
-                resetPositions();
-                changePlayerInTurn();
+                if(movePiece()){
+                    this.chessBoard.getChessBoard().resetSquareColors();
+                    resetPositions();
+                    changePlayerInTurn();
+                }
+
             }
             else            
             resetPositions();
@@ -137,8 +162,6 @@ public class Board {
                     this.chessBoard.getChessBoard().setSquareColor(p);
                 }
             }
-            //System.out.println(possibleMoves);
-            
         }
     }
 
