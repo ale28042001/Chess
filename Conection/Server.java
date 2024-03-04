@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.HashSet;
 import java.util.Set;
 
+import app.Game;
+
 public class Server {
     private Set<PrintWriter> clientWriters = new HashSet<>();
 
@@ -99,6 +101,8 @@ public class Server {
     }
 
     public static void main(String[] args) {
+        Game partida = new Game();
+        partida.run();
         Server server = new Server();
         server.start(8082);
     }

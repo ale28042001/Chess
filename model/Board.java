@@ -200,8 +200,6 @@ public class Board {
                     this.chessBoard.getChessBoard().resetSquareColors();
                     resetPositions();
                 }
-                
-
             }
             else            
             resetPositions();
