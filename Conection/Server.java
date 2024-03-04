@@ -13,7 +13,7 @@ import app.Game;
 public class Server {
     private Set<PrintWriter> clientWriters = new HashSet<>();
 
-    public void start(int port) {
+    public void start(int port, Game partida) {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server started on port " + port);
 
@@ -22,7 +22,7 @@ public class Server {
                 System.out.println("Client connected: " + clientSocket.getInetAddress());
 
                 // Create a new client handler thread
-                Thread clientHandlerThread = new Thread(() -> handleClient(clientSocket));
+                Thread clientHandlerThread = new Thread(() -> handleClient(clientSocket,partida));
                 clientHandlerThread.start();
             }
         } catch (IOException e) {
@@ -30,7 +30,7 @@ public class Server {
         }
     }
 
-    private void handleClient(Socket clientSocket) {
+    private void handleClient(Socket clientSocket, Game partida) {
         try {
             // Create input and output streams for the client
             BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()),1);
@@ -65,16 +65,28 @@ public class Server {
 
                     h+=message;
                 } else {
-                    // Read message from the server (from console input)
-                    userInput = userInputReader.readLine();
+                    // Read the message to be sent from the model or wherever it's obtained
+                    String message1 = partida.getModel().a.toString();
+                    
+                    // Send the message to the client
+                    writer.println(message1);
+                    writer.flush(); // Ensure the message is sent immediately
+                    
+                    System.out.println("Move sent to client: " + message1);
 
-                    // Send the received message to all clients
-                    sendMessageToAll(userInput);
-
+                    // Read the message to be sent from the model or wherever it's obtained
+                    String message2 = partida.getModel().b.toString();
+                    
+                    // Send the message to the client
+                    writer.println(message2);
+                    writer.flush(); // Ensure the message is sent immediately
+                    
+                    System.out.println("Move sent to client: " + message2);
+                
                     // Set client's turn
                     clientTurn = true;
-                    h+=userInput;
                 }
+                
             }
 
     
@@ -102,8 +114,8 @@ public class Server {
 
     public static void main(String[] args) {
         Game partida = new Game();
-        partida.run();
+        //partida.run();
         Server server = new Server();
-        server.start(8082);
+        server.start(8083,partida);
     }
 }

@@ -11,8 +11,8 @@ public class Board {
 
     private Piece[][] positions;
     private ChessView chessBoard;
-    Position startPosition;
-    Position destPosition;
+    private Position startPosition;
+    private Position destPosition;
     String playerInTurn;
     private Moves calculatorMoves = new Moves();
 
@@ -21,6 +21,9 @@ public class Board {
     private Position whiteKing;
     private boolean banderaJaque = true;
     private boolean hayGanador = false;
+
+    public Position a = new Position(-1, -1);
+    public Position b = new Position(-1, -1);
 
 
 
@@ -49,7 +52,7 @@ public class Board {
     }
 
 
-    public boolean analisisJaque(Position myKing, List<Position> ac) {
+    public boolean analisisJaque(Position myKing, String enemyColor) {
         if (!this.banderaJaque) {
             List<Position> myPieces = calculatorMoves.findMyPieces(playerInTurn, positions);
             for (Position position : myPieces) {
@@ -62,7 +65,8 @@ public class Board {
                     Piece movedPiece = tempPositions[position.row][position.col];
                     tempPositions[position2.row][position2.col] = movedPiece;
                     tempPositions[position.row][position.col] = null;
-    
+                    
+                    List<Position> ac= calculatorMoves.calculatePlayerMoves(enemyColor, tempPositions);
                     if (!calculatorMoves.jaque(myKing, ac)) {
                         // Found a move that doesn't result in check
                         return false;
@@ -121,7 +125,7 @@ public class Board {
         if (calculatorMoves.jaque(myKing, ac)) {
             System.out.println("Jaque");
             banderaJaque = false;
-            this.hayGanador = analisisJaque(enemyKing, ac);
+            this.hayGanador = analisisJaque(enemyKing, enemyColor);
         }
 
         System.out.println("Hay ganador: " + this.hayGanador);
@@ -190,6 +194,8 @@ public class Board {
             if(calculatorMoves.containsPosition(position))
             {
                 if(movePiece()){
+                    a=this.startPosition;
+                    b=this.destPosition;
                     if(this.hayGanador)
                         System.exit(0);
                     this.chessBoard.getChessBoard().resetSquareColors();

@@ -1,6 +1,8 @@
 package model;
 
-public class Position {
+import java.io.Serializable;
+
+public class Position implements Serializable{
     public int row;
     public int col;
 
