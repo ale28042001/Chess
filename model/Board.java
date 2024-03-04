@@ -68,11 +68,13 @@ public class Board {
 
         // Check if the destination position is within bounds
         if (destRow < 0 || destRow >= 8 || destCol < 0 || destCol >= 8) {
+
             return false;
         }
 
         // Check if the destination position is occupied by own piece
         if (positions[destRow][destCol] != null && positions[destRow][destCol].color.equals(piece.color)) {
+
             return false;
         }
 
@@ -101,10 +103,12 @@ public class Board {
         }
 
         if(calculatorMoves.jaque(myKing, calculatorMoves.calculatePlayerMoves(enemyColor, positions))){
+
             positions[destRow][destCol] = null;
             positions[startRow][startCol] = piece;
             this.resetPositions();
             return false;
+
         }
 
 
