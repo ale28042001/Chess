@@ -222,6 +222,34 @@ public class Board {
         }
     }
 
+    public boolean checkmate()
+   {
+    String enemyColor = this.playerInTurn.equals("White") ? "Black" : "White";
+    Position myKing = this.playerInTurn.equals("Black") ? this.blackKing : this.whiteKing;
+    System.out.println("Me ataca" + enemyColor);
+    List<Position> myPieces = this.calculatorMoves.findMyPieces(playerInTurn, positions);
+
+    for (Position myPiece : myPieces) {
+        List<Position> pieceMoves = calculatorMoves.calculatePieceMoves(myPiece, positions);
+        for (Position movPiece : pieceMoves) {
+            // Create a copy of the current game state
+            Piece[][] tempPositions = clonePositions(positions);
+            
+            // Simulate the move
+            Piece movedPiece = tempPositions[myPiece.row][myPiece.col];
+            tempPositions[movPiece.row][movPiece.col] = movedPiece;
+            tempPositions[myPiece.row][myPiece.col] = null;
+            
+            List<Position> enemyAtack = calculatorMoves.calculatePlayerMoves(enemyColor, tempPositions);
+            if(!calculatorMoves.jaque(myKing, enemyAtack))
+                System.out.println("Enemy attack:"+enemyAtack);
+                System.out.println("My king:"+myKing+"ffff"+movedPiece);
+                return true;
+        }    
+    }
+    return true;
+   }
+
     public void checkJaque(){
         String mycolor = this.playerInTurn;
         Position enemyKing = this.playerInTurn.equals("White") ? this.blackKing : this.whiteKing;
@@ -230,6 +258,7 @@ public class Board {
         List<Position> myPossibleMoves = calculatorMoves.calculatePlayerMoves(mycolor, this.positions);
         if(calculatorMoves.jaque(enemyKing, myPossibleMoves)){
             this.banderaJaque = false;
+            System.out.println("xxxxxxxxxxxxxxxxxxxx"+checkmate());
         }
 
 
@@ -311,4 +340,3 @@ public class Board {
         return playerInTurn;
     }
 }
-
