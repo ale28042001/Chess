@@ -14,7 +14,7 @@ public class ClientHandler implements Runnable{
     private Socket socket;
     private ObjectInputStream inStream;
     private ObjectOutputStream outStream;
-    private int playerNumber;
+    private Integer playerNumber;
 
     public ClientHandler(Socket socket, int playerNumber){
 
@@ -24,6 +24,7 @@ public class ClientHandler implements Runnable{
             this.inStream = new ObjectInputStream(socket.getInputStream());
             this.playerNumber = playerNumber;
             clientHandlers.add(this);
+            sendPlayerNumber(this.playerNumber);
         } catch(IOException e){
             closeEverything(socket, inStream, outStream);
         }
@@ -34,12 +35,15 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
 
-        Position position;
+        Object inputObject;
 
         while(socket.isConnected()){
             try {
-                position = (Position) inStream.readObject();
-                broadcastPosition(position);
+                inputObject = inStream.readObject();
+                if(inputObject instanceof Position){
+                    Position position = (Position) inputObject;
+                    broadcastPosition(position);
+                }
             } catch (IOException e) {
                 // Manejar IOException
                 closeEverything(socket, inStream, outStream);
@@ -58,6 +62,19 @@ public class ClientHandler implements Runnable{
                     clientHandler.outStream.flush();
                 }
             } catch (IOException e){
+                closeEverything(socket, inStream, outStream);
+            }
+        }
+    }
+
+    public void sendPlayerNumber(Integer playerNumber){
+        for (ClientHandler clientHandler: clientHandlers){
+            try{
+                if(clientHandler.playerNumber == this.playerNumber){
+                    clientHandler.outStream.writeObject(playerNumber);
+                    clientHandler.outStream.flush();
+                }
+            } catch(IOException e){
                 closeEverything(socket, inStream, outStream);
             }
         }

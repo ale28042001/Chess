@@ -62,8 +62,20 @@ public class Controller implements ActionListener {
     }
 
     //TODO find a better name for method?
-    public void notify(Position position){
+    public void notifyPosition(Position position){
         this.model.setPosition(position);
         repaintPieces();
+    }
+
+    public void setPlayerNumber(Integer playerNumber){
+        if(playerNumber.equals(Integer.valueOf(1))){ //1 == whites
+            System.out.println("This client is the whites " + playerNumber);
+        }
+        else if (playerNumber.equals(Integer.valueOf(2))) { //2 = blacks
+            System.out.println("This player is the blacks " + playerNumber);
+        }
+        else{ //Everything else is a spectator.
+            System.out.println("This player is a spectator " + playerNumber);
+        }
     }
 }

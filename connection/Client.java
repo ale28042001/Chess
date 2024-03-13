@@ -17,12 +17,14 @@ public class Client {
     private ObjectOutputStream outStream;
     private ObjectInputStream inStream;
     private Controller controller;
+    private Integer playerNumber; // 1 = whites, 2 = blacks, >2 = spectator.
 
     public Client(Socket socket){
         try{
             this.socket = socket;
             this.outStream = new ObjectOutputStream(socket.getOutputStream());
             this.inStream = new ObjectInputStream(socket.getInputStream());
+            this.playerNumber = Integer.valueOf(0);
         } catch (IOException e){
             closeEverything(socket, inStream, outStream);
         }
@@ -55,17 +57,22 @@ public class Client {
 
     }
 
-    public void listenForPosition(){
+    public void listen(){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Position position;
+                Object object;
                 while(socket.isConnected()){
                     try{
-                        position = (Position) inStream.readObject();
-                        controller.notify(position);
-
-
+                        object = inStream.readObject();
+                        if(object instanceof Position){
+                            Position position = (Position) object;
+                            controller.notifyPosition(position);
+                        }
+                        else{
+                            Integer playerNum = (Integer) object;
+                            setPlayerNumber(playerNum);
+                        }
                     } catch (IOException e) {
                         // Manejar IOException
                         closeEverything(socket, inStream, outStream);
@@ -82,16 +89,20 @@ public class Client {
         this.controller = controller;
     }
 
+    public void setPlayerNumber(Integer playerNumber){
+        this.playerNumber = playerNumber;
+    }
+
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket("localhost", 1234);
         Client client = new Client(socket);
-        client.listenForPosition();
+        client.listen();
         ChessView view = new ChessView();
         Board model = Utils.createGame(view);
         Controller controller = new Controller(view, model, client);
         client.setController(controller);
+        controller.setPlayerNumber(client.playerNumber);
         controller.repaintPieces();
-
     }
 
 }

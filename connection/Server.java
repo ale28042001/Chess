@@ -20,7 +20,7 @@ public class Server {
             while(!serverSocket.isClosed()){
                 Socket socket = serverSocket.accept();
                 System.out.println("A new client has connected");
-                ClientHandler clientHandler = new ClientHandler(socket, playernumber);
+                ClientHandler clientHandler = new ClientHandler(socket, Integer.valueOf(playernumber));
                 playernumber ++;
                 Thread thread = new Thread(clientHandler);
                 thread.start();
