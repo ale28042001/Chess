@@ -1,6 +1,10 @@
 package connection;
 
+import controller.Controller;
+import model.Board;
 import model.Position;
+import model.Utils;
+import view.ChessView;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -76,6 +80,10 @@ public class Client {
         Socket socket = new Socket("localhost", 1234);
         Client client = new Client(socket);
         client.listenForPosition();
+        ChessView view = new ChessView();
+        Board model = Utils.createGame(view);
+        Controller controller = new Controller(view, model, client);
+        controller.repaintPieces();
 
     }
 

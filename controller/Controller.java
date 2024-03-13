@@ -1,5 +1,6 @@
 package controller;
 
+import connection.Client;
 import model.Board;
 import model.Piece;
 import model.Position;
@@ -16,10 +17,12 @@ public class Controller implements ActionListener {
 
     private ChessView view;
     private Board model;
+    private Client client;
 
-    public Controller(ChessView view, Board model) {
+    public Controller(ChessView view, Board model, Client client) {
         this.view = view;
         this.model = model;
+        this.client = client;
         this.view.setController(this);
     }
 
@@ -31,6 +34,7 @@ public class Controller implements ActionListener {
         if(source instanceof Square){
             Square square = (Square) source;
             this.model.setPosition(square.getPosition());
+            this.client.sendPosition(square.getPosition());
             repaintPieces();
             if(!this.model.isBanderaJaque() && !this.model.isStartPositionSet() && !model.isDestPositionSet()){
                 JOptionPane.showMessageDialog(null, "Check for " + this.model.getPlayerInTurn() + " King");
