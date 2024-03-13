@@ -16,6 +16,7 @@ public class Client {
     private Socket socket;
     private ObjectOutputStream outStream;
     private ObjectInputStream inStream;
+    private Controller controller;
 
     public Client(Socket socket){
         try{
@@ -29,7 +30,6 @@ public class Client {
 
     public void sendPosition(Position position){
         try{
-            System.out.println("Posicion Enviada");
             outStream.writeObject(position);
             outStream.flush();
         }catch(IOException e){
@@ -63,7 +63,9 @@ public class Client {
                 while(socket.isConnected()){
                     try{
                         position = (Position) inStream.readObject();
-                        System.out.println("Me ha llegado una posicion");
+                        controller.notify(position);
+
+
                     } catch (IOException e) {
                         // Manejar IOException
                         closeEverything(socket, inStream, outStream);
@@ -76,6 +78,10 @@ public class Client {
         }).start();
     }
 
+    public void setController(Controller controller){
+        this.controller = controller;
+    }
+
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket("localhost", 1234);
         Client client = new Client(socket);
@@ -83,6 +89,7 @@ public class Client {
         ChessView view = new ChessView();
         Board model = Utils.createGame(view);
         Controller controller = new Controller(view, model, client);
+        client.setController(controller);
         controller.repaintPieces();
 
     }

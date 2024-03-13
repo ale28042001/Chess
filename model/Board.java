@@ -124,7 +124,7 @@ public class Board {
             banderaJaque = false;
         }
 
-        System.out.println("Hay ganador: " + this.hayGanador);
+        //System.out.println("Hay ganador: " + this.hayGanador);
 
         if (this.hayGanador) {
             return true;
@@ -154,7 +154,7 @@ public class Board {
             banderaJaque = true;
         }        
 
-        System.out.println("Pieza movida correctamente.");
+        //System.out.println("Pieza movida correctamente.");
 
         return banderaJaque;
 
@@ -226,7 +226,7 @@ public class Board {
         String mycolor = this.playerInTurn;
         Position enemyKing = this.playerInTurn.equals("White") ? this.blackKing : this.whiteKing;
         System.out.println(enemyKing);
-        System.out.println("Yo soy" + mycolor);
+        //System.out.println("Yo soy" + mycolor);
         List<Position> myPossibleMoves = calculatorMoves.calculatePlayerMoves(mycolor, this.positions);
         if(calculatorMoves.jaque(enemyKing, myPossibleMoves)){
             this.banderaJaque = false;

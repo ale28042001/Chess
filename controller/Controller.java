@@ -60,4 +60,10 @@ public class Controller implements ActionListener {
             }
         }
     }
+
+    //TODO find a better name for method?
+    public void notify(Position position){
+        this.model.setPosition(position);
+        repaintPieces();
+    }
 }
