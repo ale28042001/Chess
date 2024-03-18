@@ -2,8 +2,6 @@ package model;
 
 import view.ChessView;
 
-import javax.swing.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,29 +50,6 @@ public class Board {
         return possibleMoves;
     }
 
-
-    public boolean analisisJaque(Position myKing, String enemyColor) {
-        if (!this.banderaJaque) {
-            List<Position> myPieces = calculatorMoves.findMyPieces(playerInTurn, positions);
-            for (Position position : myPieces) {
-                calculatorMoves.calculatePieceMoves(position, positions);
-                for (Position position2 : calculatorMoves.getPossibleMoves()) {
-                    // Create a copy of the current game state
-                    Piece[][] tempPositions = clonePositions(positions);
-                    
-                    // Simulate the move
-                    Piece movedPiece = tempPositions[position.row][position.col];
-                    tempPositions[position2.row][position2.col] = movedPiece;
-                    tempPositions[position.row][position.col] = null;
-                    
-                    List<Position> ac= calculatorMoves.calculatePlayerMoves(enemyColor, tempPositions);
-                    checkJaque();
-                }
-            }
-        }
-        return true; // No move found that prevents check
-    }
-    
     // Helper method to clone the game state
     private Piece[][] clonePositions(Piece[][] positions) {
         Piece[][] clone = new Piece[positions.length][];
@@ -94,7 +69,6 @@ public class Board {
 
         String enemyColor = this.playerInTurn.equals("White") ? "Black" : "White";
         Position myKing = this.playerInTurn.equals("White") ? this.whiteKing : this.blackKing;
-        Position enemyKing = this.playerInTurn.equals("White") ? this.blackKing : this.whiteKing;
 
         Piece piece = positions[startRow][startCol];
         if (piece == null) {
@@ -118,17 +92,6 @@ public class Board {
         // You need to implement rules for each piece type to determine if the move is valid
 
         // If all checks pass, move the piece
-        List<Position> ac = calculatorMoves.calculatePlayerMoves(enemyColor, this.positions);
-        
-        if (calculatorMoves.jaque(myKing, ac)) {
-            banderaJaque = false;
-        }
-
-        System.out.println("Hay ganador: " + this.hayGanador);
-
-        if (this.hayGanador) {
-            return true;
-        }
 
         Piece deadFlag = positions[destRow][destCol];
 
@@ -154,10 +117,9 @@ public class Board {
             banderaJaque = true;
         }        
 
-        System.out.println("Pieza movida correctamente.");
+        //System.out.println("Pieza movida correctamente.");
 
         return banderaJaque;
-
     }
 
     
@@ -188,13 +150,10 @@ public class Board {
             this.destPosition = position;
             if(calculatorMoves.containsPosition(position))
             {
-                //checkJaque();
                 if(movePiece()){
                     a=this.startPosition;
                     b=this.destPosition;
                     checkJaque();
-                    if(this.hayGanador)
-                        System.exit(0);
                     changePlayerInTurn();
                 }
             }                        
@@ -211,47 +170,39 @@ public class Board {
                     this.chessBoard.getChessBoard().setSquareColor(p);
                 }
             }
-            //System.out.println(possibleMoves);
             
         }
     }
 
-    public boolean checkmate()
+    public boolean checkmate(Position myKing,String enemyColor)
    {
-    String enemyColor = this.playerInTurn.equals("Black") ? "Black" : "White";
-    Position myKing = this.playerInTurn.equals("White") ? this.blackKing : this.whiteKing;    
-    String myColor = this.playerInTurn.equals("White") ? "Black" : "White";
-    System.out.println("Me ataca" + enemyColor);
-    List<Position> myPieces = this.calculatorMoves.findMyPieces(myColor, positions);
-    System.out.println("Posiciones de mis piezas"+myPieces);
+    //System.out.println("Inicio: Posicion de mi rey"+myKing.toString()+"Me ataca: "+enemyColor);
+    String myColor = enemyColor.equals("White") ? "Black" : "White";
+    //System.out.println("Inicio: Color de mi rey"+myColor);
+    
+    Piece[][] tempPositions = clonePositions(positions);
+
+    List<Position> myPieces = this.calculatorMoves.findMyPieces(myColor, tempPositions);
+    //System.out.println("Posiciones de mis piezas"+myPieces);
+
     for (Position myPiece : myPieces) {
-        List<Position> pieceMoves = calculatorMoves.calculatePieceMoves(myPiece, positions);
-        System.out.println(pieceMoves);
-        /*
+        List<Position> pieceMoves = calculatorMoves.calculatePieceMoves(myPiece, tempPositions);
         for (Position movPiece : pieceMoves) {
             // Create a copy of the current game state
-            Piece[][] tempPositions = clonePositions(positions);
+            Piece[][] temp = tempPositions;
             
             // Simulate the move
-            Piece movedPiece = tempPositions[myPiece.row][myPiece.col];
-            tempPositions[movPiece.row][movPiece.col] = movedPiece;
-            tempPositions[myPiece.row][myPiece.col] = null;
+            Piece movedPiece = temp[myPiece.row][myPiece.col];
+            temp[movPiece.row][movPiece.col] = movedPiece;
+            temp[myPiece.row][myPiece.col] = null;
 
-            Position k = new Position(movPiece.row, movPiece.col);
-            Position g = new Position(myPiece.row, myPiece.col);
-            
             List<Position> enemyAtack = calculatorMoves.calculatePlayerMoves(enemyColor, tempPositions);
             
-            System.out.println("Enemy attack:"+enemyAtack);
-            System.out.println("My king:"+myKing+"ffff"+k.toString());
-            
-            System.out.println(g.toString()+"ffff"+k.toString());
-            
             if(!calculatorMoves.jaque(myKing, enemyAtack))
-
-                System.out.println("siiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
-                return true;
-        }    */
+            {
+                return false;
+            }
+        }    
     }
     return true;
    }
@@ -259,12 +210,11 @@ public class Board {
     public void checkJaque(){
         String mycolor = this.playerInTurn;
         Position enemyKing = this.playerInTurn.equals("White") ? this.blackKing : this.whiteKing;
-        System.out.println(enemyKing);
-        System.out.println("Yo soy" + mycolor);
         List<Position> myPossibleMoves = calculatorMoves.calculatePlayerMoves(mycolor, this.positions);
         if(calculatorMoves.jaque(enemyKing, myPossibleMoves)){
             this.banderaJaque = false;
-            //System.out.println("xxxxxxxxxxxxxxxxxxxx"+checkmate());
+            this.hayGanador=checkmate(enemyKing,mycolor);
+            if(hayGanador) System.exit(0);
         }
     }
 
