@@ -18,6 +18,7 @@ public class Controller implements ActionListener {
     private ChessView view;
     private Board model;
     private Client client;
+    private String playerColor = "None";
 
     public Controller(ChessView view, Board model, Client client) {
         this.view = view;
@@ -31,15 +32,18 @@ public class Controller implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if(source instanceof Square){
-            Square square = (Square) source;
-            this.model.setPosition(square.getPosition());
-            this.client.sendPosition(square.getPosition());
-            repaintPieces();
-            if(!this.model.isBanderaJaque() && !this.model.isStartPositionSet() && !model.isDestPositionSet()){
-                JOptionPane.showMessageDialog(null, "Check for " + this.model.getPlayerInTurn() + " King");
-            }
+        if(this.playerColor == this.model.getPlayerInTurn()) {
 
+            if (source instanceof Square) {
+                Square square = (Square) source;
+                this.model.setPosition(square.getPosition());
+                this.client.sendPosition(square.getPosition());
+                repaintPieces();
+                if (!this.model.isBanderaJaque() && !this.model.isStartPositionSet() && !model.isDestPositionSet()) {
+                    JOptionPane.showMessageDialog(null, "Check for " + this.model.getPlayerInTurn() + " King");
+                }
+
+            }
         }
     }
 
@@ -70,9 +74,11 @@ public class Controller implements ActionListener {
     public void setPlayerNumber(Integer playerNumber){
         if(playerNumber.equals(Integer.valueOf(1))){ //1 == whites
             System.out.println("This client is the whites " + playerNumber);
+            this.playerColor = "White";
         }
         else if (playerNumber.equals(Integer.valueOf(2))) { //2 = blacks
             System.out.println("This player is the blacks " + playerNumber);
+            this.playerColor = "Black";
         }
         else{ //Everything else is a spectator.
             System.out.println("This player is a spectator " + playerNumber);
