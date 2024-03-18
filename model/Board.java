@@ -210,6 +210,8 @@ public class Board {
     public void checkJaque(){
         String mycolor = this.playerInTurn;
         Position enemyKing = this.playerInTurn.equals("White") ? this.blackKing : this.whiteKing;
+        System.out.println(enemyKing);
+        System.out.println("Yo soy" + mycolor);
         List<Position> myPossibleMoves = calculatorMoves.calculatePlayerMoves(mycolor, this.positions);
         if(calculatorMoves.jaque(enemyKing, myPossibleMoves)){
             this.banderaJaque = false;
