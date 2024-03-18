@@ -188,22 +188,16 @@ public class Board {
             this.destPosition = position;
             if(calculatorMoves.containsPosition(position))
             {
+                //checkJaque();
                 if(movePiece()){
                     a=this.startPosition;
                     b=this.destPosition;
+                    checkJaque();
                     if(this.hayGanador)
                         System.exit(0);
-                    this.chessBoard.getChessBoard().resetSquareColors();
-                    checkJaque();
-                    resetPositions();
                     changePlayerInTurn();
                 }
-                else{
-                    this.chessBoard.getChessBoard().resetSquareColors();
-                    resetPositions();
-                }
-            }
-            else            
+            }                        
             resetPositions();
             this.chessBoard.getChessBoard().resetSquareColors();
         }
@@ -224,13 +218,16 @@ public class Board {
 
     public boolean checkmate()
    {
-    String enemyColor = this.playerInTurn.equals("White") ? "Black" : "White";
-    Position myKing = this.playerInTurn.equals("Black") ? this.blackKing : this.whiteKing;
+    String enemyColor = this.playerInTurn.equals("Black") ? "Black" : "White";
+    Position myKing = this.playerInTurn.equals("White") ? this.blackKing : this.whiteKing;    
+    String myColor = this.playerInTurn.equals("White") ? "Black" : "White";
     System.out.println("Me ataca" + enemyColor);
-    List<Position> myPieces = this.calculatorMoves.findMyPieces(playerInTurn, positions);
-
+    List<Position> myPieces = this.calculatorMoves.findMyPieces(myColor, positions);
+    System.out.println("Posiciones de mis piezas"+myPieces);
     for (Position myPiece : myPieces) {
         List<Position> pieceMoves = calculatorMoves.calculatePieceMoves(myPiece, positions);
+        System.out.println(pieceMoves);
+        /*
         for (Position movPiece : pieceMoves) {
             // Create a copy of the current game state
             Piece[][] tempPositions = clonePositions(positions);
@@ -239,13 +236,22 @@ public class Board {
             Piece movedPiece = tempPositions[myPiece.row][myPiece.col];
             tempPositions[movPiece.row][movPiece.col] = movedPiece;
             tempPositions[myPiece.row][myPiece.col] = null;
+
+            Position k = new Position(movPiece.row, movPiece.col);
+            Position g = new Position(myPiece.row, myPiece.col);
             
             List<Position> enemyAtack = calculatorMoves.calculatePlayerMoves(enemyColor, tempPositions);
+            
+            System.out.println("Enemy attack:"+enemyAtack);
+            System.out.println("My king:"+myKing+"ffff"+k.toString());
+            
+            System.out.println(g.toString()+"ffff"+k.toString());
+            
             if(!calculatorMoves.jaque(myKing, enemyAtack))
-                System.out.println("Enemy attack:"+enemyAtack);
-                System.out.println("My king:"+myKing+"ffff"+movedPiece);
+
+                System.out.println("siiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
                 return true;
-        }    
+        }    */
     }
     return true;
    }
@@ -258,10 +264,8 @@ public class Board {
         List<Position> myPossibleMoves = calculatorMoves.calculatePlayerMoves(mycolor, this.positions);
         if(calculatorMoves.jaque(enemyKing, myPossibleMoves)){
             this.banderaJaque = false;
-            System.out.println("xxxxxxxxxxxxxxxxxxxx"+checkmate());
+            //System.out.println("xxxxxxxxxxxxxxxxxxxx"+checkmate());
         }
-
-
     }
 
     public String getPositionColor(Position position){
